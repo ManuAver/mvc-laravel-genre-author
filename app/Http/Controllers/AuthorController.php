@@ -2,49 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Author;
+use Illuminate\Http\Request;
 
 class AuthorController extends Controller
 {
+    // Get all authors
     public function index()
     {
-        $authors = Author::all();
-        return response()->json($authors);
+        return response()->json(Author::all());
     }
 
-    public function show($id)
-    {
-        $author = Author::find($id);
-        if ($author) {
-            return response()->json($author);
-        }
-        return response()->json(['message' => 'Author not found'], 404);
-    }
-
+    // Create new author
     public function store(Request $request)
     {
         $author = Author::create($request->all());
         return response()->json($author, 201);
-    }
-
-    public function update(Request $request, $id)
-    {
-        $author = Author::find($id);
-        if ($author) {
-            $author->update($request->all());
-            return response()->json($author);
-        }
-        return response()->json(['message' => 'Author not found'], 404);
-    }
-
-    public function destroy($id)
-    {
-        $author = Author::find($id);
-        if ($author) {
-            $author->delete();
-            return response()->json(['message' => 'Author deleted']);
-        }
-        return response()->json(['message' => 'Author not found'], 404);
     }
 }
