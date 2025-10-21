@@ -2,16 +2,22 @@
 
 namespace App\Models;
 
-class Genre
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Genre extends Model
 {
-    public static function all()
+    use HasFactory;
+
+    // Field yang boleh diisi secara massal
+    protected $fillable = [
+        'name',
+        'description'
+    ];
+
+    // Relasi dengan Book
+    public function books()
     {
-        return [
-            ['id' => 1, 'name' => 'Fiksi', 'description' => 'Cerita rekaan yang bersifat imajinatif.'],
-            ['id' => 2, 'name' => 'Non-Fiksi', 'description' => 'Buku berdasarkan fakta nyata.'],
-            ['id' => 3, 'name' => 'Misteri', 'description' => 'Kisah dengan teka-teki dan penyelidikan.'],
-            ['id' => 4, 'name' => 'Romansa', 'description' => 'Cerita yang berfokus pada hubungan cinta.'],
-            ['id' => 5, 'name' => 'Fantasi', 'description' => 'Kisah dengan elemen magis dan dunia imajiner.'],
-        ];
+        return $this->hasMany(Book::class);
     }
 }

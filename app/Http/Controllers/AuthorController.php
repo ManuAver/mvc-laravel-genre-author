@@ -3,19 +3,48 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Author;
 
 class AuthorController extends Controller
 {
     public function index()
     {
-        $authors = [
-            ['id' => 1, 'name' => 'J.K. Rowling'],
-            ['id' => 2, 'name' => 'George R.R. Martin'],
-            ['id' => 3, 'name' => 'Agatha Christie'],
-            ['id' => 4, 'name' => 'Stephen King'],
-            ['id' => 5, 'name' => 'Dan Brown'],
-        ];
+        $authors = Author::all();
+        return response()->json($authors);
+    }
 
-        return view('author', compact('authors'));
+    public function show($id)
+    {
+        $author = Author::find($id);
+        if ($author) {
+            return response()->json($author);
+        }
+        return response()->json(['message' => 'Author not found'], 404);
+    }
+
+    public function store(Request $request)
+    {
+        $author = Author::create($request->all());
+        return response()->json($author, 201);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $author = Author::find($id);
+        if ($author) {
+            $author->update($request->all());
+            return response()->json($author);
+        }
+        return response()->json(['message' => 'Author not found'], 404);
+    }
+
+    public function destroy($id)
+    {
+        $author = Author::find($id);
+        if ($author) {
+            $author->delete();
+            return response()->json(['message' => 'Author deleted']);
+        }
+        return response()->json(['message' => 'Author not found'], 404);
     }
 }

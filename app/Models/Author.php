@@ -9,8 +9,14 @@ class Author extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'bio'];
+    // Field yang boleh diisi secara massal
+    protected $fillable = [
+        'name',
+        'email',
+        'birthdate'
+    ];
 
+    // Relasi dengan Book
     public function books()
     {
         return $this->hasMany(Book::class);
